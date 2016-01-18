@@ -1,0 +1,38 @@
+{
+  "name": "react-tipsy",
+  "version": "0.1.0",
+  "description": "A React component that allows you to easily create simple tooltips.",
+  "main": "dist/react-tipsy.js",
+  "scripts": {
+    "build": "webpack",
+    "minify": "NODE_ENV=production webpack -p",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dennisduong/react-tipsy.git"
+  },
+  "keywords": [
+    "javascript",
+    "react"
+  ],
+  "author": "Dennis Duong <dennis.duong@hotmail.com> (https://github.com/dennisduong)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dennisduong/react-tipsy/issues"
+  },
+  "homepage": "https://github.com/dennisduong/react-tipsy#readme",
+  "devDependencies": {
+    "babel": "6.3.26",
+    "babel-core": "6.4.0",
+    "babel-loader": "6.2.1",
+    "babel-plugin-add-module-exports": "0.1.2",
+    "babel-plugin-syntax-object-rest-spread": "6.3.13",
+    "babel-preset-es2015": "6.3.13",
+    "babel-preset-react": "6.3.13",
+    "babel-preset-stage-0": "6.3.13",
+    "react": "0.14.6",
+    "react-dom": "0.14.6",
+    "webpack": "1.12.11"
+  }
+}
