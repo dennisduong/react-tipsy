@@ -187,6 +187,6 @@ const ReactTipsy = React.createClass({
 
 });
 
-ReactTipsy.version = '0.1.0';
+ReactTipsy.version = '0.1.1';
 
 export default ReactTipsy;

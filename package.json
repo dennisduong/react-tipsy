@@ -1,6 +1,6 @@
 {
   "name": "react-tipsy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A React component that allows you to easily create simple tooltips.",
   "main": "react-tipsy.js",
   "scripts": {
