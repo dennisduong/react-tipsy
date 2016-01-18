@@ -2,7 +2,7 @@
   "name": "react-tipsy",
   "version": "0.1.0",
   "description": "A React component that allows you to easily create simple tooltips.",
-  "main": "dist/react-tipsy.js",
+  "main": "react-tipsy.js",
   "scripts": {
     "build": "webpack",
     "minify": "NODE_ENV=production webpack -p",
