@@ -1,16 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
 
-var entry = {};
-
-if (process.env.NODE_ENV === 'production') {
-  entry["example.min"] = './index.js';
-} else {
-  entry["example"] = './index.js';
-}
-
 module.exports = {
-  entry: entry,
+  entry: {
+    'example': './index.js'
+  },
 
   // options affecting the output.
   output: {

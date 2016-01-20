@@ -79,13 +79,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Like bootstrap's tooltip plugin, react-tipsy does not rely on images.
 	 */
 
-	// **NOTE** we do not need jQuery for this library but if its available, we
-	// will use it for mouse events in case users want to support IE < 9
-	var $ = window.$ || window.jQuery;
-
 	function offset(el) {
-	  if ($) return $(el).offset();
-
 	  // IE 8+ only
 	  var rect = el.getBoundingClientRect();
 
@@ -112,7 +106,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * The contents to render. It's assumed to be a string but if you wish,
 	     * you may pass in any mountable "node".
 	     */
-	    content: _react2.default.PropTypes.node,
+	    content: _react2.default.PropTypes.node.isRequired,
 
 	    /**
 	     * Specify where to place the tooltip.
@@ -120,13 +114,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * defaults to 'top'
 	     */
 	    placement: _react2.default.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
-
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      content: '',
-	      placement: 'bottom'
+	      placement: 'top'
 	    };
 	  },
 	  componentWillMount: function componentWillMount() {
@@ -145,30 +137,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  componentDidMount: function componentDidMount() {
 	    // get the top-level DOM element for that this component is wrapped around.
-	    var target = this.tipsy.target = _reactDom2.default.findDOMNode(this);
-
-	    // setup events -- using jQuery if available otherwise falls back to
-	    // browser `addEventListener`
-	    if ($) {
-	      $(target).on('mouseenter', this.show).on('mouseleave', this.hide);
-	    } else {
-	      target.addEventListener('mouseenter', this.show);
-	      target.addEventListener('mouseleave', this.hide);
-	    }
+	    this.tipsy.target = _reactDom2.default.findDOMNode(this);
 	  },
 	  componentDidUpdate: function componentDidUpdate() {
 	    if (this.tipsy.show) this.updatePosition();
 	  },
 	  componentWillUnmount: function componentWillUnmount() {
-	    var target = this.tipsy.target;
-
-	    if ($) {
-	      $(target).off();
-	    } else {
-	      target.removeEventListener('mouseenter', this.show);
-	      target.removeEventListener('mouseleave', this.hide);
-	    }
-
 	    // unmount element so we can trigger React component lifecycle methods.
 	    var unmounted = _reactDom2.default.unmountComponentAtNode(this.tipsy.portal);
 
@@ -178,7 +152,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  render: function render() {
-	    return this.props.children;
+	    var children = _react2.default.Children.only(this.props.children);
+	    var _children$props = children.props;
+	    var onBlur = _children$props.onBlur;
+	    var onFocus = _children$props.onFocus;
+	    var onMouseOver = _children$props.onMouseOver;
+	    var onMouseOut = _children$props.onMouseOut;
+
+	    var props = {
+	      onBlur: this._onBlur.bind(this, onBlur),
+	      onFocus: this._onFocus.bind(this, onFocus),
+	      onMouseOver: this._onMouseOver.bind(this, onMouseOver),
+	      onMouseOut: this._onMouseOut.bind(this, onMouseOut)
+	    };
+
+	    return _react2.default.cloneElement(children, props);
 	  },
 	  renderTipsy: function renderTipsy() {
 	    // render tooltip
@@ -188,7 +176,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    return _react2.default.createElement(
 	      'div',
-	      { className: className, role: 'tooltip', style: { display: '' } },
+	      { className: className, role: 'tooltip' },
 	      _react2.default.createElement('div', { className: 'react-tipsy-arrow' }),
 	      _react2.default.createElement(
 	        'div',
@@ -198,6 +186,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    );
 	  },
 	  show: function show() {
+	    // return early if tooltip is already shown.
+	    if (this.tipsy.show) return;
+
 	    // render tooltip
 	    var tooltip = this.renderTipsy();
 
@@ -214,6 +205,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.tipsy.show = true;
 	  },
 	  hide: function hide() {
+	    // return early if tooltip is not visible
+	    if (!this.tipsy.show) return;
+
 	    // unmount the component
 	    _reactDom2.default.unmountComponentAtNode(this.tipsy.portal);
 
@@ -251,10 +245,30 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    el.style.top = top + 'px';
 	    el.style.left = left + 'px';
+	  },
+	  _onBlur: function _onBlur(handler, e) {
+	    this.hide();
+
+	    if (handler) handler(e);
+	  },
+	  _onFocus: function _onFocus(handler, e) {
+	    this.show();
+
+	    if (handler) handler(e);
+	  },
+	  _onMouseOver: function _onMouseOver(handler, e) {
+	    this.show();
+
+	    if (handler) handler(e);
+	  },
+	  _onMouseOut: function _onMouseOut(handler, e) {
+	    this.hide();
+
+	    if (handler) handler(e);
 	  }
 	});
 
-	ReactTipsy.version = '0.1.0';
+	ReactTipsy.version = '0.2.0';
 
 	exports.default = ReactTipsy;
 	module.exports = exports['default'];

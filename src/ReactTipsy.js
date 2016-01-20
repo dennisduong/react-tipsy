@@ -10,13 +10,7 @@ import ReactDOM from 'react-dom';
  * Like bootstrap's tooltip plugin, react-tipsy does not rely on images.
  */
 
-// **NOTE** we do not need jQuery for this library but if its available, we
-// will use it for mouse events in case users want to support IE < 9
-const $ = window.$ || window.jQuery;
-
 function offset(el) {
-  if ($) return $(el).offset();
-
   // IE 8+ only
   let rect = el.getBoundingClientRect();
 
@@ -42,7 +36,7 @@ const ReactTipsy = React.createClass({
      * The contents to render. It's assumed to be a string but if you wish,
      * you may pass in any mountable "node".
      */
-    content: React.PropTypes.node,
+    content: React.PropTypes.node.isRequired,
 
     /**
      * Specify where to place the tooltip.
@@ -50,14 +44,12 @@ const ReactTipsy = React.createClass({
      * defaults to 'top'
      */
     placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
-
   },
 
   getDefaultProps() {
     return {
-      content: '',
-      placement: 'bottom'
-    }
+      placement: 'top'
+    };
   },
 
   componentWillMount() {
@@ -77,18 +69,7 @@ const ReactTipsy = React.createClass({
 
   componentDidMount() {
     // get the top-level DOM element for that this component is wrapped around.
-    const target = this.tipsy.target = ReactDOM.findDOMNode(this);
-
-    // setup events -- using jQuery if available otherwise falls back to
-    // browser `addEventListener`
-    if ($) {
-      $(target)
-        .on('mouseenter', this.show)
-        .on('mouseleave', this.hide);
-    } else {
-      target.addEventListener('mouseenter', this.show);
-      target.addEventListener('mouseleave', this.hide);
-    }
+    this.tipsy.target = ReactDOM.findDOMNode(this);
   },
 
   componentDidUpdate() {
@@ -96,15 +77,6 @@ const ReactTipsy = React.createClass({
   },
 
   componentWillUnmount() {
-    const { target } = this.tipsy;
-
-    if ($) {
-      $(target).off();
-    } else {
-      target.removeEventListener('mouseenter', this.show);
-      target.removeEventListener('mouseleave', this.hide);
-    }
-
     // unmount element so we can trigger React component lifecycle methods.
     const unmounted = ReactDOM.unmountComponentAtNode(this.tipsy.portal);
 
@@ -115,7 +87,21 @@ const ReactTipsy = React.createClass({
   },
 
   render() {
-    return this.props.children;
+    const children = React.Children.only(this.props.children);
+    const {
+      onBlur,
+      onFocus,
+      onMouseOver,
+      onMouseOut
+    } = children.props;
+    const props = {
+      onBlur: this._onBlur.bind(this, onBlur),
+      onFocus: this._onFocus.bind(this, onFocus),
+      onMouseOver: this._onMouseOver.bind(this, onMouseOver),
+      onMouseOut: this._onMouseOut.bind(this, onMouseOut)
+    };
+
+    return React.cloneElement(children, props);
   },
 
   renderTipsy() {
@@ -124,7 +110,7 @@ const ReactTipsy = React.createClass({
     const className = 'react-tipsy in ' + placement;
 
     return (
-      <div className={className} role="tooltip" style={{display: ''}}>
+      <div className={className} role="tooltip">
         <div className="react-tipsy-arrow"></div>
         <div className="react-tipsy-inner">{this.props.content}</div>
       </div>
@@ -132,6 +118,9 @@ const ReactTipsy = React.createClass({
   },
 
   show() {
+    // return early if tooltip is already shown.
+    if (this.tipsy.show) return;
+
     // render tooltip
     const tooltip = this.renderTipsy();
 
@@ -149,6 +138,9 @@ const ReactTipsy = React.createClass({
   },
 
   hide() {
+    // return early if tooltip is not visible
+    if (!this.tipsy.show) return;
+
     // unmount the component
     ReactDOM.unmountComponentAtNode(this.tipsy.portal);
 
@@ -183,10 +175,34 @@ const ReactTipsy = React.createClass({
 
     el.style.top = top + 'px';
     el.style.left = left + 'px';
+  },
+
+  _onBlur(handler, e) {
+    this.hide();
+
+    if (handler) handler(e);
+  },
+
+  _onFocus(handler, e) {
+    this.show();
+
+    if (handler) handler(e);
+  },
+
+  _onMouseOver(handler, e) {
+    this.show();
+
+    if (handler) handler(e);
+  },
+
+  _onMouseOut(handler, e) {
+    this.hide();
+
+    if (handler) handler(e);
   }
 
 });
 
-ReactTipsy.version = '0.1.1';
+ReactTipsy.version = '0.2.0';
 
 export default ReactTipsy;
