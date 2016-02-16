@@ -3,31 +3,21 @@ import ReactDOM from 'react-dom';
 
 /**
  * Inspired by Bootstrap's jQuery tooltip plugin, which drew its inspiration
- * from the jQuery.tipsy plugin written by Jason Frame, react-tipsy is a
+ * from the jQuery.tipsy plugin written by Jason Frame, Tipsy is a
  * simple component that allows you to easily add tooltips to any React
  * component.
  *
- * Like bootstrap's tooltip plugin, react-tipsy does not rely on images.
+ * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
  */
 
-function offset(el) {
-  // IE 8+ only
-  let rect = el.getBoundingClientRect();
-
-  return {
-    top: rect.top + document.body.scrollTop,
-    left: rect.left + document.body.scrollLeft
-  };
-}
-
-const ReactTipsy = React.createClass({
+const Tipsy = React.createClass({
 
   propTypes: {
 
     /**
-     * Use this property to render your component inside the `ReactTipsy`.
+     * Use this property to render your component inside the `Tipsy`.
      *
-     * **NOTE** ReactTipsy only supports tooltip for a single component/
+     * **NOTE** Tipsy only supports tooltip for a single component/
      * DOM element.
      */
     children: React.PropTypes.element.isRequired,
@@ -73,7 +63,10 @@ const ReactTipsy = React.createClass({
   },
 
   componentDidUpdate() {
-    if (this.tipsy.show) this.updatePosition();
+    if (this.tipsy.show) {
+      const show = this.show;
+      setTimeout(() => show(true), 1); // defer to allow for child component to render
+    }
   },
 
   componentWillUnmount() {
@@ -106,20 +99,20 @@ const ReactTipsy = React.createClass({
 
   renderTipsy() {
     // render tooltip
-    const { placement } = this.props;
-    const className = 'react-tipsy in ' + placement;
+    const { content, placement } = this.props;
+    const className = 'Tipsy in ' + placement;
 
     return (
       <div className={className} role="tooltip">
-        <div className="react-tipsy-arrow"></div>
-        <div className="react-tipsy-inner">{this.props.content}</div>
+        <div className="Tipsy-arrow"></div>
+        <div className="Tipsy-inner">{content}</div>
       </div>
     );
   },
 
-  show() {
-    // return early if tooltip is already shown.
-    if (this.tipsy.show) return;
+  show(forceUpdate=false) {
+    // return early if tooltip is already shown or "forceUpdate" is false
+    if (!forceUpdate && this.tipsy.show) return;
 
     // render tooltip
     const tooltip = this.renderTipsy();
@@ -203,6 +196,15 @@ const ReactTipsy = React.createClass({
 
 });
 
-ReactTipsy.version = '0.2.0';
+function offset(el) {
+  let rect = el.getBoundingClientRect();
 
-export default ReactTipsy;
+  return {
+    top: rect.top + document.body.scrollTop,
+    left: rect.left + document.body.scrollLeft
+  };
+}
+
+Tipsy.version = '0.3.0';
+
+export default Tipsy;

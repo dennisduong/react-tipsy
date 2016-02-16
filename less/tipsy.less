@@ -1,0 +1,77 @@
+/**
+ * React Tipsy
+ * ===========
+ */
+
+@import "variables.less";
+@import "mixins.less";
+
+// base
+.Tipsy {
+  display: block;
+  position: absolute;
+  z-index: @zindex-Tipsy;
+  // Our parent element can be arbitrary since tooltips are by default
+  // inserted as a sibling of their target element. So reset our font and text
+  // properties to avoid inheriting weird values.
+  .Tipsy-reset-text();
+  font-size: @Tipsy-font-size;
+
+  .Tipsy-opacity(0);
+
+  &.in     { .Tipsy-opacity(@Tipsy-opacity); }
+  &.top    { margin-top:  -3px; padding: @Tipsy-arrow-width 0; }
+  &.right  { margin-left:  3px; padding: 0 @Tipsy-arrow-width; }
+  &.bottom { margin-top:   3px; padding: @Tipsy-arrow-width 0; }
+  &.left   { margin-left: -3px; padding: 0 @Tipsy-arrow-width; }
+}
+
+// Wrapper for the tooltip content
+.Tipsy-inner {
+  background-color: @Tipsy-bg;
+  border-radius: @Tipsy-border-radius;
+  color: @Tipsy-color;
+  max-width: @Tipsy-max-width;
+  padding: 3px 8px;
+  text-align: center;
+}
+
+// Arrows
+.Tipsy-arrow {
+  border-color: transparent;
+  border-style: solid;
+  height: 0;
+  position: absolute;
+  width: 0;
+}
+
+.Tipsy {
+  &.top .Tipsy-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -@Tipsy-arrow-width;
+    border-width: @Tipsy-arrow-width @Tipsy-arrow-width 0;
+    border-top-color: @Tipsy-arrow-color;
+  }
+  &.right .Tipsy-arrow {
+    top: 50%;
+    left: 0;
+    margin-top: -@Tipsy-arrow-width;
+    border-width: @Tipsy-arrow-width @Tipsy-arrow-width @Tipsy-arrow-width 0;
+    border-right-color: @Tipsy-arrow-color;
+  }
+  &.left .Tipsy-arrow {
+    top: 50%;
+    right: 0;
+    margin-top: -@Tipsy-arrow-width;
+    border-width: @Tipsy-arrow-width 0 @Tipsy-arrow-width @Tipsy-arrow-width;
+    border-left-color: @Tipsy-arrow-color;
+  }
+  &.bottom .Tipsy-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -@Tipsy-arrow-width;
+    border-width: 0 @Tipsy-arrow-width @Tipsy-arrow-width;
+    border-bottom-color: @Tipsy-arrow-color;
+  }
+}

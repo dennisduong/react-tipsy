@@ -48,10 +48,11 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var ReactTipsy = __webpack_require__(159);
+	var Tipsy = __webpack_require__(159);
 
 	var App = React.createClass({
 	  displayName: 'App',
+
 
 	  getInitialState: function getInitialState() {
 	    return {
@@ -62,7 +63,6 @@
 
 	  componentDidMount: function componentDidMount() {
 	    this.timer = setInterval(this.incCounterAndToggleBox, 3000);
-
 	    this.refs.tooltip.show();
 	  },
 
@@ -83,76 +83,80 @@
 	        'react-tipsy'
 	      ),
 	      React.createElement(
-	        'table',
-	        { style: { width: '100%' } },
+	        'div',
+	        { style: { margin: '0 100px' } },
 	        React.createElement(
-	          'tbody',
-	          null,
+	          'table',
+	          { style: { width: '100%' } },
 	          React.createElement(
-	            'tr',
+	            'tbody',
 	            null,
 	            React.createElement(
-	              'td',
+	              'tr',
 	              null,
 	              React.createElement(
-	                ReactTipsy,
-	                {
-	                  content: 'Tooltip on left',
-	                  placement: 'left'
-	                },
+	                'td',
+	                null,
 	                React.createElement(
-	                  'button',
-	                  { type: 'button' },
-	                  'Left'
+	                  Tipsy,
+	                  {
+	                    content: 'Tooltip on left',
+	                    placement: 'left'
+	                  },
+	                  React.createElement(
+	                    'button',
+	                    { type: 'button' },
+	                    'Left'
+	                  )
 	                )
-	              )
-	            ),
-	            React.createElement(
-	              'td',
-	              null,
+	              ),
 	              React.createElement(
-	                ReactTipsy,
-	                {
-	                  content: React.createElement(
-	                    'h4',
-	                    null,
-	                    'This is actually an H4 element!'
-	                  ),
-	                  placement: 'top'
-	                },
+	                'td',
+	                null,
 	                React.createElement(
-	                  'button',
-	                  { type: 'button' },
-	                  'Top ...;)'
+	                  Tipsy,
+	                  {
+	                    content: React.createElement(
+	                      'h4',
+	                      null,
+	                      'This is actually an H4 element!'
+	                    ),
+	                    placement: 'top'
+	                  },
+	                  React.createElement(
+	                    'button',
+	                    { type: 'button' },
+	                    'Top ...;)'
+	                  )
 	                )
-	              )
-	            ),
-	            React.createElement(
-	              'td',
-	              null,
+	              ),
 	              React.createElement(
-	                ReactTipsy,
-	                {
-	                  content: 'Tooltip on right',
-	                  placement: 'right'
-	                },
+	                'td',
+	                null,
 	                React.createElement(
-	                  'button',
-	                  { type: 'button' },
-	                  'Right'
+	                  Tipsy,
+	                  {
+	                    content: 'Tooltip on right',
+	                    placement: 'right'
+	                  },
+	                  React.createElement(
+	                    'button',
+	                    { type: 'button' },
+	                    'Right'
+	                  )
 	                )
-	              )
-	            ),
-	            React.createElement(
-	              'td',
-	              null,
+	              ),
 	              React.createElement(
-	                ReactTipsy,
-	                { content: 'Tooltip on bottom', placement: 'bottom' },
+	                'td',
+	                null,
 	                React.createElement(
-	                  'button',
-	                  { type: 'button' },
-	                  'Bottom'
+	                  Tipsy,
+	                  { content: 'Tooltip on bottom', placement: 'bottom' },
+	                  React.createElement(
+	                    'button',
+	                    { type: 'button' },
+	                    'Bottom'
+	                  )
 	                )
 	              )
 	            )
@@ -169,7 +173,7 @@
 	          counter
 	        ),
 	        React.createElement(
-	          ReactTipsy,
+	          Tipsy,
 	          {
 	            ref: 'tooltip',
 	            content: 'Showed this tooltip via this.refs.tooltip.show()',
@@ -179,6 +183,43 @@
 	            'button',
 	            { type: 'button' },
 	            'Watch the tooltip update position automatically!'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { style: { margin: '25px auto' } },
+	        'What about dealing with tooltips wrapping a deeply nested DOM node?',
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        'You should use ',
+	        React.createElement(
+	          'code',
+	          null,
+	          'event.stopPropagation()'
+	        ),
+	        ' on "onFocus", "onMouseOver" and "onMouseOut" to prevent bubbling to the parent and triggering Tipsy.. See the following example:',
+	        React.createElement('br', null),
+	        React.createElement(
+	          Tipsy,
+	          { content: 'Hello, world!' },
+	          React.createElement(
+	            'ul',
+	            { style: { display: 'inline-block' } },
+	            React.createElement(
+	              'li',
+	              null,
+	              'If you hover over me, you will see the tooltip!',
+	              React.createElement(
+	                'ul',
+	                { onFocus: stopPropagation, onMouseOver: stopPropagation, onMouseOut: stopPropagation },
+	                React.createElement(
+	                  'li',
+	                  null,
+	                  'But try hovering over me and see if it shows up or not!'
+	                )
+	              )
+	            )
 	          )
 	        )
 	      )
@@ -195,6 +236,10 @@
 	  }
 
 	});
+
+	function stopPropagation(e) {
+	  e.stopPropagation();
+	}
 
 	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
 
@@ -9455,6 +9500,7 @@
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -9488,8 +9534,6 @@
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -9500,7 +9544,11 @@
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 
@@ -13349,7 +13397,10 @@
 	      }
 	    });
 
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+
 	    return nativeProps;
 	  }
 
@@ -18822,7 +18873,7 @@
 
 	'use strict';
 
-	module.exports = '0.14.6';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 147 */
@@ -19872,32 +19923,22 @@
 
 				/**
 	    * Inspired by Bootstrap's jQuery tooltip plugin, which drew its inspiration
-	    * from the jQuery.tipsy plugin written by Jason Frame, react-tipsy is a
+	    * from the jQuery.tipsy plugin written by Jason Frame, Tipsy is a
 	    * simple component that allows you to easily add tooltips to any React
 	    * component.
 	    *
-	    * Like bootstrap's tooltip plugin, react-tipsy does not rely on images.
+	    * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
 	    */
 
-				function offset(el) {
-					// IE 8+ only
-					var rect = el.getBoundingClientRect();
-
-					return {
-						top: rect.top + document.body.scrollTop,
-						left: rect.left + document.body.scrollLeft
-					};
-				}
-
-				var ReactTipsy = _react2.default.createClass({
-					displayName: 'ReactTipsy',
+				var Tipsy = _react2.default.createClass({
+					displayName: 'Tipsy',
 
 					propTypes: {
 
 						/**
-	      * Use this property to render your component inside the `ReactTipsy`.
+	      * Use this property to render your component inside the `Tipsy`.
 	      *
-	      * **NOTE** ReactTipsy only supports tooltip for a single component/
+	      * **NOTE** Tipsy only supports tooltip for a single component/
 	      * DOM element.
 	      */
 						children: _react2.default.PropTypes.element.isRequired,
@@ -19914,7 +19955,6 @@
 	      * defaults to 'top'
 	      */
 						placement: _react2.default.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
-
 					},
 
 					getDefaultProps: function getDefaultProps() {
@@ -19941,7 +19981,16 @@
 						this.tipsy.target = _reactDom2.default.findDOMNode(this);
 					},
 					componentDidUpdate: function componentDidUpdate() {
-						if (this.tipsy.show) this.updatePosition();
+						var _this = this;
+
+						if (this.tipsy.show) {
+							(function () {
+								var show = _this.show;
+								setTimeout(function () {
+									return show(true);
+								}, 1); // defer to allow for child component to render
+							})();
+						}
 					},
 					componentWillUnmount: function componentWillUnmount() {
 						// unmount element so we can trigger React component lifecycle methods.
@@ -19971,15 +20020,19 @@
 					},
 					renderTipsy: function renderTipsy() {
 						// render tooltip
-						var placement = this.props.placement;
+						var _props = this.props;
+						var content = _props.content;
+						var placement = _props.placement;
 
-						var className = 'react-tipsy in ' + placement;
+						var className = 'Tipsy in ' + placement;
 
-						return _react2.default.createElement('div', { className: className, role: 'tooltip' }, _react2.default.createElement('div', { className: 'react-tipsy-arrow' }), _react2.default.createElement('div', { className: 'react-tipsy-inner' }, this.props.content));
+						return _react2.default.createElement('div', { className: className, role: 'tooltip' }, _react2.default.createElement('div', { className: 'Tipsy-arrow' }), _react2.default.createElement('div', { className: 'Tipsy-inner' }, content));
 					},
 					show: function show() {
-						// return early if tooltip is already shown.
-						if (this.tipsy.show) return;
+						var forceUpdate = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+						// return early if tooltip is already shown or "forceUpdate" is false
+						if (!forceUpdate && this.tipsy.show) return;
 
 						// render tooltip
 						var tooltip = this.renderTipsy();
@@ -20060,9 +20113,18 @@
 					}
 				});
 
-				ReactTipsy.version = '0.2.0';
+				function offset(el) {
+					var rect = el.getBoundingClientRect();
 
-				exports.default = ReactTipsy;
+					return {
+						top: rect.top + document.body.scrollTop,
+						left: rect.left + document.body.scrollLeft
+					};
+				}
+
+				Tipsy.version = '0.3.0';
+
+				exports.default = Tipsy;
 				module.exports = exports['default'];
 
 				/***/

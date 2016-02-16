@@ -4,9 +4,9 @@ var webpack = require('webpack');
 var entry = {};
 
 if (process.env.NODE_ENV === 'production') {
-  entry["react-tipsy.min"] = './src/ReactTipsy.js';
+  entry["react-tipsy.min"] = './src/Tipsy.js';
 } else {
-  entry["react-tipsy"] = './src/ReactTipsy.js';
+  entry["react-tipsy"] = './src/Tipsy.js';
 }
 
 module.exports = {
@@ -30,7 +30,7 @@ module.exports = {
   // options affecting the output.
   output: {
     // Absolute path to output our bundle file. We build into Flask default static dir.
-    path: path.resolve(__dirname),
+    path: path.resolve(__dirname, 'dist'),
 
     // The filename of the entry chunk as relative path inside the `output.path` dir
     filename: '[name].js',
