@@ -4,26 +4,7 @@ var Tipsy = require('../../dist/react-tipsy');
 
 var App = React.createClass({
 
-  getInitialState: function() {
-    return {
-      counter: 0,
-      showBox: true
-    };
-  },
-
-  componentDidMount: function() {
-    this.timer = setInterval(this.incCounterAndToggleBox, 3000);
-    this.refs.tooltip.show();
-  },
-
-  componentWillUnmount: function() {
-    clearInterval(this.timer);
-  },
-
   render: function() {
-    var counter = this.state.counter;
-    var showBox = this.state.showBox;
-
     return (
       <div className="react-tipsy-demo">
         <h3>react-tipsy</h3>
@@ -34,6 +15,7 @@ var App = React.createClass({
               <tr>
                 <td>
                   <Tipsy
+                    ref="tooltip"
                     content="Tooltip on left"
                     placement="left"
                   >
@@ -43,11 +25,11 @@ var App = React.createClass({
                 <td>
                   <Tipsy
                     content={(
-                      <h4>This is actually an H4 element!</h4>
+                      <h4>This is actually an &lt;H4&gt; React Element!</h4>
                     )}
                     placement="top"
                   >
-                    <button type="button">Top ...;)</button>
+                    <button type="button">Top..;)</button>
                   </Tipsy>
                 </td>
                 <td>
@@ -68,30 +50,17 @@ var App = React.createClass({
           </table>
         </div>
 
-        <div style={{margin: '25px auto', paddingTop: 50, textAlign: 'center'}}>
-          {showBox &&
-            <h2>Counter: {counter}</h2>
-          }
-          <Tipsy
-            ref="tooltip"
-            content="Showed this tooltip via this.refs.tooltip.show()"
-            placement="right"
-          >
-            <button type="button">Watch the tooltip update position automatically!</button>
-          </Tipsy>
-        </div>
-
         <div style={{margin: '25px auto'}}>
           What about dealing with tooltips wrapping a deeply nested DOM node?
           <br/>
           <br/>
-          You should use <code>event.stopPropagation()</code> on "onFocus", "onMouseOver" and "onMouseOut" to prevent bubbling to the parent and triggering Tipsy.. See the following example:
+          You should use <code>event.stopPropagation()</code> on "onFocus", "onMouseOver" and "onTouchStart" to prevent bubbling to the parent and triggering Tipsy.. See the following example:
           <br/>
           <Tipsy content="Hello, world!">
             <ul style={{display: 'inline-block'}}>
               <li>
                 If you hover over me, you will see the tooltip!
-                <ul onFocus={stopPropagation} onMouseOver={stopPropagation} onMouseOut={stopPropagation}>
+                <ul onFocus={stopPropagation} onMouseOver={stopPropagation} onTouchStart={stopPropagation}>
                   <li>
                     But try hovering over me and see if it shows up or not!
                   </li>
@@ -102,15 +71,6 @@ var App = React.createClass({
         </div>
       </div>
     );
-  },
-
-  incCounterAndToggleBox: function() {
-    this.setState(function(state) {
-      return {
-        counter: state.counter + 1,
-        showBox: !state.showBox
-      };
-    });
   }
 
 });

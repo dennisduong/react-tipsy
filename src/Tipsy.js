@@ -12,13 +12,14 @@ import ReactDOM from 'react-dom';
 
 const Tipsy = React.createClass({
 
+  statics: {
+    version: '0.4.0'
+  },
+
   propTypes: {
 
     /**
      * Use this property to render your component inside the `Tipsy`.
-     *
-     * **NOTE** Tipsy only supports tooltip for a single component/
-     * DOM element.
      */
     children: React.PropTypes.element.isRequired,
 
@@ -33,178 +34,192 @@ const Tipsy = React.createClass({
      *
      * defaults to 'top'
      */
-    placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
+    placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+
+    /**
+     * How tooltip is triggered - click | hover | focus | touch | manual.
+     * 
+     * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
+     */
+    trigger: React.PropTypes.string
+
   },
 
-  getDefaultProps() {
+  getDefaultProps: function() {
     return {
-      placement: 'top'
+      placement: 'top',
+      trigger: 'hover focus touch'
     };
   },
 
-  componentWillMount() {
-    // we don't use this.state because we don't want to trigger
-    // `render` on children.
-    this.tipsy = {
-      // ref. to the child node we are wrapped around
-      target: null,
-      // ref. to the tipsy DOM element.
-      el: null,
-      // ref. to the "portal" DOM element
-      portal: document.createElement('div'),
-      // flag used to update position if child component was updated
-      show: false
-    };
+  componentWillMount: function() {
+    // ref. to the tipsy React element.
+    this.tipsy = null;
+    // ref. to the "portal" DOM element
+    this.portal = document.createElement('div');
+    // flag used to update position if child component was updated
+    this.isVisible = false;
   },
 
-  componentDidMount() {
-    // get the top-level DOM element for that this component is wrapped around.
-    this.tipsy.target = ReactDOM.findDOMNode(this);
-  },
-
-  componentDidUpdate() {
-    if (this.tipsy.show) {
-      const show = this.show;
-      setTimeout(() => show(true), 1); // defer to allow for child component to render
+  componentDidUpdate: function(prevProps) {
+    // if content and/or placement prop has changed, and tooltip is visible, forceUpdate the tooltip.
+    if ((this.props.content != prevProps.content || this.props.placement != prevProps.placement) && this.isVisible) {
+      this.show(true);
     }
   },
 
-  componentWillUnmount() {
-    // unmount element so we can trigger React component lifecycle methods.
-    const unmounted = ReactDOM.unmountComponentAtNode(this.tipsy.portal);
-
-    if (unmounted) {
-      // remove portal from DOM.
-      document.body.removeChild(this.tipsy.portal);
-    }
+  componentWillUnmount: function() {
+    this.destroy();
   },
 
-  render() {
+  render: function() {
     const children = React.Children.only(this.props.children);
     const {
       onBlur,
+      onClick,
       onFocus,
+      onMouseOut,
       onMouseOver,
-      onMouseOut
+      onTouchEnd,
+      onTouchStart
     } = children.props;
-    const props = {
-      onBlur: this._onBlur.bind(this, onBlur),
-      onFocus: this._onFocus.bind(this, onFocus),
-      onMouseOver: this._onMouseOver.bind(this, onMouseOver),
-      onMouseOut: this._onMouseOut.bind(this, onMouseOut)
-    };
+    const props = {};
+    const triggers = this.props.trigger.split(' ');
+
+    let i, trigger;
+    for (i = triggers.length; i--;) {
+      trigger = triggers[i]
+
+      if (trigger == 'click') {
+        props.onClick = this._toggle.bind(this, onClick);
+      } else if (trigger == 'hover') {
+        props.onMouseOut = this._hide.bind(this, onMouseOut);
+        props.onMouseOver = this._show.bind(this, onMouseOver);
+      } else if (trigger == 'focus') {
+        props.onBlur = this._hide.bind(this, onBlur);
+        props.onFocus = this._show.bind(this, onFocus);
+      } else if (trigger == 'touch') {
+        props.onTouchEnd = this._hide.bind(this, onTouchEnd);
+        props.onTouchStart = this._show.bind(this, onTouchStart);
+      }
+    }
 
     return React.cloneElement(children, props);
   },
 
-  renderTipsy() {
-    // render tooltip
-    const { content, placement } = this.props;
-    const className = 'Tipsy in ' + placement;
+  // Public API
+  // ----------
 
-    return (
-      <div className={className} role="tooltip">
-        <div className="Tipsy-arrow"></div>
-        <div className="Tipsy-inner">{content}</div>
-      </div>
-    );
+  destroy: function() {
+    // unmount element so we can trigger React component lifecycle methods.
+    const unmounted = ReactDOM.unmountComponentAtNode(this.portal);
+
+    if (unmounted) document.body.removeChild(this.portal); // remove portal from DOM.
+
+    this.isVisible = false;
+    this.tipsy = null;
   },
 
-  show(forceUpdate=false) {
-    // return early if tooltip is already shown or "forceUpdate" is false
-    if (!forceUpdate && this.tipsy.show) return;
+  hide: function() {
+    // return early if tooltip is not visible
+    if (!this.isVisible) return;
+
+    // unmount the component
+    ReactDOM.unmountComponentAtNode(this.portal);
+
+    // remove portal
+    document.body.removeChild(this.portal);
+
+    // flip `show` flag
+    this.isVisible = false;
+  },
+
+  show: function(forceUpdate) {
+    // return early if tooltip is already visible or "forceUpdate" is false
+    if (!forceUpdate && this.isVisible) return;
 
     // render tooltip
-    const tooltip = this.renderTipsy();
+    const element = (
+      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
+        <div className="Tipsy-arrow"></div>
+        <div className="Tipsy-inner">{this.props.content}</div>
+      </div>
+    );
 
     // mount the component
-    document.body.appendChild(this.tipsy.portal);
+    document.body.appendChild(this.portal);
 
     // render element
-    this.tipsy.el = ReactDOM.render(tooltip, this.tipsy.portal);
+    this.tipsy = ReactDOM.unstable_renderSubtreeIntoContainer(this, element, this.portal);
 
     // update position
     this.updatePosition();
 
     // flip `show` flag
-    this.tipsy.show = true;
+    this.isVisible = true;
   },
 
-  hide() {
-    // return early if tooltip is not visible
-    if (!this.tipsy.show) return;
-
-    // unmount the component
-    ReactDOM.unmountComponentAtNode(this.tipsy.portal);
-
-    // remove portal
-    document.body.removeChild(this.tipsy.portal);
-
-    // flip `show` flag
-    this.tipsy.show = false;
+  toggle: function() {
+    if (this.isVisible) this.hide();
+    else this.show();
   },
 
-  updatePosition() {
-    const { target, el } = this.tipsy;
-    const { placement } = this.props;
-    const targetOffset = offset(target);
-
-    let left = targetOffset.left;
-    let top = targetOffset.top;
-
+  updatePosition: function() {
+    if (!this.tipsy) return;
+    const el = ReactDOM.findDOMNode(this);
+    const tipsy = ReactDOM.findDOMNode(this.tipsy);
+    const placement = this.props.placement;
+    
+    let { left, top } = offset(el);
     if (placement == 'top') {
-      top = top - el.offsetHeight;
-      left = left + (target.offsetWidth/2 - el.offsetWidth/2);
+      top = top - tipsy.offsetHeight;
+      left = left + (el.offsetWidth/2 - tipsy.offsetWidth/2);
     } else if (placement == 'bottom') {
-      top = top + target.offsetHeight;
-      left = left + (target.offsetWidth/2 - el.offsetWidth/2);
+      top = top + el.offsetHeight;
+      left = left + (el.offsetWidth/2 - tipsy.offsetWidth/2);
     } else if (placement == 'right') {
-      top = top + (target.offsetHeight/2 - el.offsetHeight/2);
-      left = left + target.offsetWidth;
+      top = top + (el.offsetHeight/2 - tipsy.offsetHeight/2);
+      left = left + el.offsetWidth;
     } else { // placement == 'left'
-      top = top + (target.offsetHeight/2 - el.offsetHeight/2);
-      left = left - el.offsetWidth;
+      top = top + (el.offsetHeight/2 - tipsy.offsetHeight/2);
+      left = left - tipsy.offsetWidth;
     }
 
-    el.style.top = top + 'px';
-    el.style.left = left + 'px';
+    tipsy.style.top = top + 'px';
+    tipsy.style.left = left + 'px';
   },
 
-  _onBlur(handler, e) {
+  // Private API
+  // -----------
+
+  _hide: function(callback, e) {
     this.hide();
 
-    if (handler) handler(e);
+    if (callback) return callback(e);
   },
 
-  _onFocus(handler, e) {
+  _toggle: function(callback, e) {
+    this.toggle();
+
+    if (callback) return callback(e);
+  },
+
+  _show: function(callback, e) {
     this.show();
 
-    if (handler) handler(e);
-  },
-
-  _onMouseOver(handler, e) {
-    this.show();
-
-    if (handler) handler(e);
-  },
-
-  _onMouseOut(handler, e) {
-    this.hide();
-
-    if (handler) handler(e);
+    if (callback) return callback(e);
   }
 
 });
 
+// IE8+ equiv. of $.fn.offset
 function offset(el) {
-  let rect = el.getBoundingClientRect();
+  const rect = el.getBoundingClientRect();
 
   return {
     top: rect.top + document.body.scrollTop,
     left: rect.left + document.body.scrollLeft
   };
 }
-
-Tipsy.version = '0.3.0';
 
 export default Tipsy;

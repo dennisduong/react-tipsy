@@ -1,31 +1,12 @@
+var fs = require('fs');
 var path = require('path');
+
 var webpack = require('webpack');
 
-var entry = {};
+var babelSettings = JSON.parse(fs.readFileSync('.babelrc'));
+var config = {
 
-if (process.env.NODE_ENV === 'production') {
-  entry["react-tipsy.min"] = './src/Tipsy.js';
-} else {
-  entry["react-tipsy"] = './src/Tipsy.js';
-}
-
-module.exports = {
-  externals: {
-    "react": {
-      "amd": "react",
-      "commonjs": "react",
-      "commonjs2": "react",
-      "root": "React"
-    },
-    "react-dom": {
-      "amd": "react-dom",
-      "commonjs": "react-dom",
-      "commonjs2": "react-dom",
-      "root": "ReactDOM"
-    }
-  },
-
-  entry: entry,
+  entry: path.resolve(__dirname, 'src/Tipsy.js'),
 
   // options affecting the output.
   output: {
@@ -33,9 +14,9 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
 
     // The filename of the entry chunk as relative path inside the `output.path` dir
-    filename: '[name].js',
+    filename: process.env.NODE_ENV === 'production' ? 'react-tipsy.min.js' : 'react-tipsy.js',
 
-    // name of the global var: "Mondavi"
+    // name of the global var: "ReactTipsy"
     library: 'ReactTipsy',
 
     // export itself to a global var
@@ -48,19 +29,30 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          presets: [
-            'es2015',
-            'react',
-            'stage-0'
-          ],
-          plugins: [
-            'add-module-exports',
-            'syntax-object-rest-spread'
-          ]
-        }
+        include: [
+          path.resolve(__dirname, 'src')
+        ],
+        query: babelSettings
       }
     ]
+  },
+
+  externals: {
+
+    "react": {
+      "amd": "react",
+      "commonjs": "react",
+      "commonjs2": "react",
+      "root": "React"
+    },
+
+    "react-dom": {
+      "amd": "react-dom",
+      "commonjs": "react-dom",
+      "commonjs2": "react-dom",
+      "root": "ReactDOM"
+    }
+
   },
 
   resolve: {
@@ -70,3 +62,5 @@ module.exports = {
     }
   }
 };
+
+module.exports = config;
