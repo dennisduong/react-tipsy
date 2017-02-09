@@ -16,8 +16,8 @@ var config = {
     // The filename of the entry chunk as relative path inside the `output.path` dir
     filename: process.env.NODE_ENV === 'production' ? 'react-tipsy.min.js' : 'react-tipsy.js',
 
-    // name of the global var: "ReactTipsy"
-    library: 'ReactTipsy',
+    // name of the global var: "Tipsy"
+    library: 'Tipsy',
 
     // export itself to a global var
     libraryTarget: 'umd'
