@@ -28,14 +28,14 @@ You can also use the standalone build by including `dist/react-tipsy.min.js` and
 ```
 var Tipsy = require('react-tipsy');
 
-<Tipsy content="Hello, world!" position="bottom" trigger="hover focus touch">
+<Tipsy content="Hello, world!" placement="bottom" trigger="hover focus touch">
     <h1>Welcome!</h1>
 </Tipsy>
 ```
 
 The `chidren` property **_must_** be a React Element. **(required)**
 The `content` property can be a any mountable type but this is most likely a string. **(required)**
-The `position` property is where to position the tooltip. Valid options are: `top`, `right`, `bottom` and `left`. Defaults to `"top"`.
+The `placement` property is where to position the tooltip. Valid options are: `top`, `right`, `bottom` and `left`. Defaults to `"top"`.
 The `trigger` property is a string that determines how the tooltip is triggered. Valid options are: `click`, `hover`, `focus`, `touch` or just `manual`. You may pass multiple triggers; separate them with a space. Pass a string value of "manual" to manually trigger the tooltip. Defaults to `"hover focus touch"`.
 
 ### Methods
