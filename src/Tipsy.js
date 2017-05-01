@@ -11,7 +11,6 @@ import ReactDOM from 'react-dom';
  */
 const DefaultContainer = React.createClass({
   propTypes: {
-    content: React.PropTypes.node.isRequired,
     placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
   },
   render: function () {

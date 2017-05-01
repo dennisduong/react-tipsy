@@ -82,7 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  displayName: 'DefaultContainer',
 
 	  propTypes: {
-	    content: _react2.default.PropTypes.node.isRequired,
 	    placement: _react2.default.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
 	  },
 	  render: function render() {
