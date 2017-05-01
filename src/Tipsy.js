@@ -9,6 +9,20 @@ import ReactDOM from 'react-dom';
  *
  * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
  */
+const DefaultContainer = React.createClass({
+  propTypes: {
+    content: React.PropTypes.node.isRequired,
+    placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  },
+
+  render: function() {
+    return (
+      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
+        <div className="Tipsy-arrow" />
+        <div className="Tipsy-inner">{this.props.children}</div>
+      <div>)
+  },
+});
 
 const Tipsy = React.createClass({
 
@@ -38,17 +52,25 @@ const Tipsy = React.createClass({
 
     /**
      * How tooltip is triggered - click | hover | focus | touch | manual.
-     * 
+     *
      * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
      */
-    trigger: React.PropTypes.string
+    trigger: React.PropTypes.string,
+
+    /**
+     * Specify an override Tipsy Container.
+     *
+     * Needs to be a React.Class as unstable_renderSubtreeIntoContainer doesn't bind into Stateless components
+     */
+    container: React.PropTypes.element,
 
   },
 
   getDefaultProps: function() {
     return {
       placement: 'top',
-      trigger: 'hover focus touch'
+      trigger: 'hover focus touch',
+      container: DefaultContainer,
     };
   },
 
@@ -139,12 +161,8 @@ const Tipsy = React.createClass({
     if (!forceUpdate && this.isVisible) return;
 
     // render tooltip
-    const element = (
-      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
-        <div className="Tipsy-arrow"></div>
-        <div className="Tipsy-inner">{this.props.content}</div>
-      </div>
-    );
+    const Element = this.props.container
+    const element = <Element placement={this.props.placement} content={this.props.content} />;
 
     // mount the component
     document.body.appendChild(this.portal);
@@ -169,7 +187,7 @@ const Tipsy = React.createClass({
     const el = ReactDOM.findDOMNode(this);
     const tipsy = ReactDOM.findDOMNode(this.tipsy);
     const placement = this.props.placement;
-    
+
     let { left, top } = offset(el);
     if (placement == 'top') {
       top = top - tipsy.offsetHeight;
