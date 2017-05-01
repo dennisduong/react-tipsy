@@ -136,16 +136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Specify an override Tipsy Container.
 	     *
 	     */
-	    container: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.func, _react2.default.PropTypes.node]),
-
-	    /**
-	     * Calculations for Tispy placement depending on your own styles.
-	     *
-	     * calculateLocation takes two parameters:
-	     *  target_method: The target Element you want to center the tipsy around
-	     *  tipsy_element: The tispy Element you generate onto DOM
-	     */
-	    calculateLocation: _react2.default.PropTypes.func
+	    container: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.func, _react2.default.PropTypes.node])
 
 	  },
 
@@ -153,28 +144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return {
 	      placement: 'top',
 	      trigger: 'hover focus touch',
-	      container: DefaultContainer,
-	      calculateLocation: function calculateLocation(placement, target_element, tipsy_element) {
-	        var _offset = offset(target_element),
-	            left = _offset.left,
-	            top = _offset.top;
-
-	        if (placement == 'top') {
-	          top = top - tipsy_element.offsetHeight;
-	          left = left + target_element.offsetWidth / 2 - tipsy_element.offsetWidth / 2;
-	        } else if (placement == 'bottom') {
-	          top = top + target_element.offsetHeight;
-	          left = left + target_element.offsetWidth / 2 - tipsy_element.offsetWidth / 2;
-	        } else if (placement == 'right') {
-	          top = top + target_element.offsetHeight / 2 - tipsy_element.offsetHeight / 2;
-	          left = left + target_element.offsetWidth;
-	        } else {
-	          // placement == 'left'
-	          top = top + (target_element.offsetHeight / 2 - tipsy_element.offsetHeight / 2);
-	          left = left - tipsy_element.offsetWidth;
-	        }
-	        return { left: left, top: top };
-	      }
+	      container: DefaultContainer
 	    };
 	  },
 
@@ -296,9 +266,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var tipsy = _reactDom2.default.findDOMNode(this.tipsy);
 	    var placement = this.props.placement;
 
-	    var _props$calculateLocat = this.props.calculateLocation(placement, el, this.tipsy),
-	        left = _props$calculateLocat.left,
-	        top = _props$calculateLocat.top;
+	    var _offset = offset(el),
+	        left = _offset.left,
+	        top = _offset.top;
+
+	    if (placement == 'top') {
+	      top = top - tipsy.offsetHeight;
+	      left = left + (el.offsetWidth / 2 - tipsy.offsetWidth / 2);
+	    } else if (placement == 'bottom') {
+	      top = top + el.offsetHeight;
+	      left = left + (el.offsetWidth / 2 - tipsy.offsetWidth / 2);
+	    } else if (placement == 'right') {
+	      top = top + (el.offsetHeight / 2 - tipsy.offsetHeight / 2);
+	      left = left + el.offsetWidth;
+	    } else {
+	      // placement == 'left'
+	      top = top + (el.offsetHeight / 2 - tipsy.offsetHeight / 2);
+	      left = left - tipsy.offsetWidth;
+	    }
 
 	    tipsy.style.top = top + 'px';
 	    tipsy.style.left = left + 'px';
