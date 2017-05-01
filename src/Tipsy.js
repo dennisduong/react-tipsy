@@ -46,7 +46,7 @@ const Tipsy = React.createClass({
      *
      * defaults to 'top'
      */
-    placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    placement: React.PropTypes.string,
 
     /**
      * How tooltip is triggered - click | hover | focus | touch | manual.
