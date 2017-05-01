@@ -32,7 +32,7 @@ const Tipsy = React.createClass({
     /**
      * Use this property to render your component inside the `Tipsy`.
      */
-    children: React.PropTypes.element.isRequired,
+    children: React.PropTypes.node.isRequired,
 
     /**
      * The contents to render. It's assumed to be a string but if you wish,
@@ -57,13 +57,15 @@ const Tipsy = React.createClass({
     /**
      * Specify an override Tipsy Container.
      *
-     * Needs to be a React.Class as unstable_renderSubtreeIntoContainer doesn't bind into Stateless components
      */
-    container: React.PropTypes.element,
+    container: React.PropTypes.oneOfType([
+      React.PropTypes.func,
+      React.PropTypes.node,
+    ]),
 
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       placement: 'top',
       trigger: 'hover focus touch',

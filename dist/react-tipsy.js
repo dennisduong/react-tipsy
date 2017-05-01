@@ -110,7 +110,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Use this property to render your component inside the `Tipsy`.
 	     */
-	    children: _react2.default.PropTypes.element.isRequired,
+	    children: _react2.default.PropTypes.node.isRequired,
 
 	    /**
 	     * The contents to render. It's assumed to be a string but if you wish,
@@ -135,9 +135,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /**
 	     * Specify an override Tipsy Container.
 	     *
-	     * Needs to be a React.Class as unstable_renderSubtreeIntoContainer doesn't bind into Stateless components
 	     */
-	    container: _react2.default.PropTypes.element,
+	    container: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.func, _react2.default.PropTypes.node]),
 
 	    /**
 	     * Calculations for Tispy placement depending on your own styles.
@@ -297,7 +296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var tipsy = _reactDom2.default.findDOMNode(this.tipsy);
 	    var placement = this.props.placement;
 
-	    var _props$calculateLocat = this.props.calculateLocation.bind(placement, el, tispy),
+	    var _props$calculateLocat = this.props.calculateLocation.bind(placement, el, this.tipsy),
 	        left = _props$calculateLocat.left,
 	        top = _props$calculateLocat.top;
 
