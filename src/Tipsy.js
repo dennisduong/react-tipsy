@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -10,6 +10,27 @@ import PropTypes from 'prop-types';
  *
  * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
  */
+
+class Container extends PureComponent {
+  render() {
+    return (
+      <div className={`Tipsy in ${this.props.placement}`} role="tooltip" >
+        <div className="Tipsy-arrow" />
+        <div className="Tipsy-inner" >{this.props.children}</div>
+      </div>
+    );
+  }
+}
+
+/**
+ * Specify where to place the tooltip.
+ *
+ * defaults to 'top'
+ */
+Container.propTypes = {
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  content: PropTypes.node.isRequired,
+};
 
 export default class Tipsy extends Component {
 
@@ -100,12 +121,8 @@ export default class Tipsy extends Component {
     if (!forceUpdate && this.isVisible) return;
 
     // render tooltip
-    const element = (
-      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
-        <div className="Tipsy-arrow"></div>
-        <div className="Tipsy-inner">{this.props.content}</div>
-      </div>
-    );
+    const Element = this.props.container;
+    const element = <Element placement={this.props.placement} >{this.props.content}</Element>;
 
     // mount the component
     document.body.appendChild(this.portal);
@@ -175,7 +192,8 @@ export default class Tipsy extends Component {
 
 Tipsy.defaultProps = {
   placement: 'top',
-  trigger: 'hover focus touch'
+  trigger: 'hover focus touch',
+  container: DefaultContainer
 };
 
 Tipsy.propTypes = {
@@ -203,8 +221,13 @@ Tipsy.propTypes = {
    *
    * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
    */
-  trigger: PropTypes.string
+  trigger: PropTypes.string,
 
+  /**
+   * Customizable node for rendering the tipsy.
+   *
+   */
+  container: React.PropTypes.node,
 };
 
 Tipsy.version = "0.5.0";
