@@ -278,6 +278,17 @@
 	    *
 	    * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
 	    */
+				var DefaultContainer = _react2.default.createClass({
+					displayName: 'DefaultContainer',
+
+					propTypes: {
+						content: _react2.default.PropTypes.node.isRequired,
+						placement: _react2.default.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
+					},
+					render: function render() {
+						return _react2.default.createElement('div', { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' }, _react2.default.createElement('div', { className: 'Tipsy-arrow' }), _react2.default.createElement('div', { className: 'Tipsy-inner' }, this.props.children));
+					}
+				});
 
 				var Tipsy = _react2.default.createClass({
 					displayName: 'Tipsy',
@@ -308,17 +319,25 @@
 
 						/**
 	      * How tooltip is triggered - click | hover | focus | touch | manual.
-	      * 
+	      *
 	      * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
 	      */
-						trigger: _react2.default.PropTypes.string
+						trigger: _react2.default.PropTypes.string,
+
+						/**
+	      * Specify an override Tipsy Container.
+	      *
+	      * Needs to be a React.Class as unstable_renderSubtreeIntoContainer doesn't bind into Stateless components
+	      */
+						container: _react2.default.PropTypes.element
 
 					},
 
 					getDefaultProps: function getDefaultProps() {
 						return {
 							placement: 'top',
-							trigger: 'hover focus touch'
+							trigger: 'hover focus touch',
+							container: DefaultContainer
 						};
 					},
 
@@ -410,7 +429,8 @@
 						if (!forceUpdate && this.isVisible) return;
 
 						// render tooltip
-						var element = _react2.default.createElement('div', { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' }, _react2.default.createElement('div', { className: 'Tipsy-arrow' }), _react2.default.createElement('div', { className: 'Tipsy-inner' }, this.props.content));
+						var Element = this.props.container;
+						var element = _react2.default.createElement(Element, { placement: this.props.placement }, this.props.content);
 
 						// mount the component
 						document.body.appendChild(this.portal);
@@ -509,8 +529,7 @@
 				module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 				/***/
-			}
-			/******/])
+			}])
 		);
 	});
 	;
