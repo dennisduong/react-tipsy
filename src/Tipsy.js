@@ -14,18 +14,16 @@ const DefaultContainer = React.createClass({
     content: React.PropTypes.node.isRequired,
     placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
   },
-
   render: function() {
     return (
       <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
         <div className="Tipsy-arrow" />
         <div className="Tipsy-inner">{this.props.children}</div>
-      <div>)
-  },
+      </div>)
+  }
 });
 
 const Tipsy = React.createClass({
-
   statics: {
     version: '0.4.1'
   },
@@ -161,8 +159,8 @@ const Tipsy = React.createClass({
     if (!forceUpdate && this.isVisible) return;
 
     // render tooltip
-    const Element = this.props.container
-    const element = <Element placement={this.props.placement}>{this.props.content}<Element />;
+    const Element = this.props.container;
+    const element = <Element placement={this.props.placement}>{this.props.content}</Element>;
 
     // mount the component
     document.body.appendChild(this.portal);

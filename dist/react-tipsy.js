@@ -52,7 +52,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -78,10 +78,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
 	 */
+	var DefaultContainer = _react2.default.createClass({
+	  displayName: 'DefaultContainer',
+
+	  propTypes: {
+	    content: _react2.default.PropTypes.node.isRequired,
+	    placement: _react2.default.PropTypes.oneOf(['top', 'right', 'bottom', 'left'])
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(
+	      'div',
+	      { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' },
+	      _react2.default.createElement('div', { className: 'Tipsy-arrow' }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'Tipsy-inner' },
+	        this.props.children
+	      )
+	    );
+	  }
+	});
 
 	var Tipsy = _react2.default.createClass({
 	  displayName: 'Tipsy',
-
 
 	  statics: {
 	    version: '0.4.1'
@@ -109,17 +128,25 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    /**
 	     * How tooltip is triggered - click | hover | focus | touch | manual.
-	     * 
+	     *
 	     * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
 	     */
-	    trigger: _react2.default.PropTypes.string
+	    trigger: _react2.default.PropTypes.string,
+
+	    /**
+	     * Specify an override Tipsy Container.
+	     *
+	     * Needs to be a React.Class as unstable_renderSubtreeIntoContainer doesn't bind into Stateless components
+	     */
+	    container: _react2.default.PropTypes.element
 
 	  },
 
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      placement: 'top',
-	      trigger: 'hover focus touch'
+	      trigger: 'hover focus touch',
+	      container: DefaultContainer
 	    };
 	  },
 
@@ -211,15 +238,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (!forceUpdate && this.isVisible) return;
 
 	    // render tooltip
+	    var Element = this.props.container;
 	    var element = _react2.default.createElement(
-	      'div',
-	      { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' },
-	      _react2.default.createElement('div', { className: 'Tipsy-arrow' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'Tipsy-inner' },
-	        this.props.content
-	      )
+	      Element,
+	      { placement: this.props.placement },
+	      this.props.content
 	    );
 
 	    // mount the component
@@ -304,19 +327,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = Tipsy;
 	module.exports = exports['default'];
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_1__;
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
-/***/ }
+/***/ })
 /******/ ])
 });
 ;
