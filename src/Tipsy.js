@@ -162,7 +162,7 @@ const Tipsy = React.createClass({
 
     // render tooltip
     const Element = this.props.container
-    const element = <Element placement={this.props.placement} content={this.props.content} />;
+    const element = <Element placement={this.props.placement}>{this.props.content}<Element />;
 
     // mount the component
     document.body.appendChild(this.portal);
