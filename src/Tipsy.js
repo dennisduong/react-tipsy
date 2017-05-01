@@ -14,11 +14,11 @@ const DefaultContainer = React.createClass({
     content: React.PropTypes.node.isRequired,
     placement: React.PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
   },
-  render: function() {
+  render: function () {
     return (
-      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
+      <div className={`Tipsy in ${this.props.placement}`} role="tooltip" >
         <div className="Tipsy-arrow" />
-        <div className="Tipsy-inner">{this.props.children}</div>
+        <div className="Tipsy-inner" >{this.props.children}</div>
       </div>)
   }
 });
@@ -72,7 +72,7 @@ const Tipsy = React.createClass({
     };
   },
 
-  componentWillMount: function() {
+  componentWillMount: function () {
     // ref. to the tipsy React element.
     this.tipsy = null;
     // ref. to the "portal" DOM element
@@ -81,18 +81,18 @@ const Tipsy = React.createClass({
     this.isVisible = false;
   },
 
-  componentDidUpdate: function(prevProps) {
+  componentDidUpdate: function (prevProps) {
     // if content and/or placement prop has changed, and tooltip is visible, forceUpdate the tooltip.
     if ((this.props.content != prevProps.content || this.props.placement != prevProps.placement) && this.isVisible) {
       this.show(true);
     }
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function () {
     this.destroy();
   },
 
-  render: function() {
+  render: function () {
     const children = React.Children.only(this.props.children);
     const {
       onBlur,
@@ -130,7 +130,7 @@ const Tipsy = React.createClass({
   // Public API
   // ----------
 
-  destroy: function() {
+  destroy: function () {
     // unmount element so we can trigger React component lifecycle methods.
     const unmounted = ReactDOM.unmountComponentAtNode(this.portal);
 
@@ -140,7 +140,7 @@ const Tipsy = React.createClass({
     this.tipsy = null;
   },
 
-  hide: function() {
+  hide: function () {
     // return early if tooltip is not visible
     if (!this.isVisible) return;
 
@@ -154,13 +154,13 @@ const Tipsy = React.createClass({
     this.isVisible = false;
   },
 
-  show: function(forceUpdate) {
+  show: function (forceUpdate) {
     // return early if tooltip is already visible or "forceUpdate" is false
     if (!forceUpdate && this.isVisible) return;
 
     // render tooltip
     const Element = this.props.container;
-    const element = <Element placement={this.props.placement}>{this.props.content}</Element>;
+    const element = <Element placement={this.props.placement} >{this.props.content}</Element>;
 
     // mount the component
     document.body.appendChild(this.portal);
@@ -208,19 +208,19 @@ const Tipsy = React.createClass({
   // Private API
   // -----------
 
-  _hide: function(callback, e) {
+  _hide: function (callback, e) {
     this.hide();
 
     if (callback) return callback(e);
   },
 
-  _toggle: function(callback, e) {
+  _toggle: function (callback, e) {
     this.toggle();
 
     if (callback) return callback(e);
   },
 
-  _show: function(callback, e) {
+  _show: function (callback, e) {
     this.show();
 
     if (callback) return callback(e);
