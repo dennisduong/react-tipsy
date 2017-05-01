@@ -296,7 +296,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var tipsy = _reactDom2.default.findDOMNode(this.tipsy);
 	    var placement = this.props.placement;
 
-	    var _props$calculateLocat = this.props.calculateLocation.bind(placement, el, this.tipsy),
+	    var _props$calculateLocat = this.props.calculateLocation(placement, el, this.tipsy),
 	        left = _props$calculateLocat.left,
 	        top = _props$calculateLocat.top;
 
