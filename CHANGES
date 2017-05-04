@@ -3,13 +3,20 @@ react-tipsy Changelog
 
 Here you can see the full list of changes between each react-tipsy release.
 
+Version 0.4.3
+
+Released on May 4, 2017.
+
+- Library name changed to Tipsy as was originally intended to
+- Updated README.md to fix documentation inconsistencies
+
 Version 0.4.0
 -------------
 
 Released on January 26, 2017.
 
-- Library name chaned from "ReactTipsy" to "Tipsy"
-- updated package.json to not be reliant on a specific React/ReactDOM versoin
+- Library name changed from "ReactTipsy" to "Tipsy"
+- updated package.json to not be reliant on a specific React/ReactDOM version
 - updated README.md to fix typos and include props options and methods
 - added touch support (ontouchstart and ontouchend events)
 - added "manual" trigger
