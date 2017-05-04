@@ -1,10 +1,10 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Tipsy = require('../../dist/react-tipsy');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Tipsy from '../../dist/react-tipsy';
 
-var App = React.createClass({
+class App extends React.Component {
 
-  render: function() {
+  render() {
     return (
       <div className="react-tipsy-demo">
         <h3>react-tipsy</h3>
@@ -73,7 +73,7 @@ var App = React.createClass({
     );
   }
 
-});
+}
 
 function stopPropagation(e) {
   e.stopPropagation();

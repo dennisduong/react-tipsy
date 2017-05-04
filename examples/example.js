@@ -46,152 +46,179 @@
 
 	'use strict';
 
-	var React = __webpack_require__(1);
-	var ReactDOM = __webpack_require__(36);
-	var Tipsy = __webpack_require__(182);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var App = React.createClass({
-	  displayName: 'App',
+	var _react = __webpack_require__(1);
 
+	var _react2 = _interopRequireDefault(_react);
 
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'react-tipsy-demo' },
-	      React.createElement(
-	        'h3',
-	        null,
-	        'react-tipsy'
-	      ),
-	      React.createElement(
-	        'div',
-	        { style: { margin: '0 100px' } },
-	        React.createElement(
-	          'table',
-	          { style: { width: '100%' } },
-	          React.createElement(
-	            'tbody',
-	            null,
-	            React.createElement(
-	              'tr',
-	              null,
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(
-	                  Tipsy,
-	                  {
-	                    ref: 'tooltip',
-	                    content: 'Tooltip on left',
-	                    placement: 'left'
-	                  },
-	                  React.createElement(
-	                    'button',
-	                    { type: 'button' },
-	                    'Left'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(
-	                  Tipsy,
-	                  {
-	                    content: React.createElement(
-	                      'h4',
-	                      null,
-	                      'This is actually an <H4> React Element!'
-	                    ),
-	                    placement: 'top'
-	                  },
-	                  React.createElement(
-	                    'button',
-	                    { type: 'button' },
-	                    'Top..;)'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(
-	                  Tipsy,
-	                  {
-	                    content: 'Tooltip on right',
-	                    placement: 'right'
-	                  },
-	                  React.createElement(
-	                    'button',
-	                    { type: 'button' },
-	                    'Right'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'td',
-	                null,
-	                React.createElement(
-	                  Tipsy,
-	                  { content: 'Tooltip on bottom', placement: 'bottom' },
-	                  React.createElement(
-	                    'button',
-	                    { type: 'button' },
-	                    'Bottom'
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { style: { margin: '25px auto' } },
-	        'What about dealing with tooltips wrapping a deeply nested DOM node?',
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        'You should use ',
-	        React.createElement(
-	          'code',
-	          null,
-	          'event.stopPropagation()'
-	        ),
-	        ' on "onFocus", "onMouseOver" and "onTouchStart" to prevent bubbling to the parent and triggering Tipsy.. See the following example:',
-	        React.createElement('br', null),
-	        React.createElement(
-	          Tipsy,
-	          { content: 'Hello, world!' },
-	          React.createElement(
-	            'ul',
-	            { style: { display: 'inline-block' } },
-	            React.createElement(
-	              'li',
-	              null,
-	              'If you hover over me, you will see the tooltip!',
-	              React.createElement(
-	                'ul',
-	                { onFocus: stopPropagation, onMouseOver: stopPropagation, onTouchStart: stopPropagation },
-	                React.createElement(
-	                  'li',
-	                  null,
-	                  'But try hovering over me and see if it shows up or not!'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      )
-	    );
+	var _reactDom = __webpack_require__(36);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _reactTipsy = __webpack_require__(182);
+
+	var _reactTipsy2 = _interopRequireDefault(_reactTipsy);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+
+	  function App() {
+	    _classCallCheck(this, App);
+
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
 	  }
 
-	});
+	  _createClass(App, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'react-tipsy-demo' },
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'react-tipsy'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { style: { margin: '0 100px' } },
+	          _react2.default.createElement(
+	            'table',
+	            { style: { width: '100%' } },
+	            _react2.default.createElement(
+	              'tbody',
+	              null,
+	              _react2.default.createElement(
+	                'tr',
+	                null,
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactTipsy2.default,
+	                    {
+	                      ref: 'tooltip',
+	                      content: 'Tooltip on left',
+	                      placement: 'left'
+	                    },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'button' },
+	                      'Left'
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactTipsy2.default,
+	                    {
+	                      content: _react2.default.createElement(
+	                        'h4',
+	                        null,
+	                        'This is actually an <H4> React Element!'
+	                      ),
+	                      placement: 'top'
+	                    },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'button' },
+	                      'Top..;)'
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactTipsy2.default,
+	                    {
+	                      content: 'Tooltip on right',
+	                      placement: 'right'
+	                    },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'button' },
+	                      'Right'
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'td',
+	                  null,
+	                  _react2.default.createElement(
+	                    _reactTipsy2.default,
+	                    { content: 'Tooltip on bottom', placement: 'bottom' },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { type: 'button' },
+	                      'Bottom'
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { style: { margin: '25px auto' } },
+	          'What about dealing with tooltips wrapping a deeply nested DOM node?',
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('br', null),
+	          'You should use ',
+	          _react2.default.createElement(
+	            'code',
+	            null,
+	            'event.stopPropagation()'
+	          ),
+	          ' on "onFocus", "onMouseOver" and "onTouchStart" to prevent bubbling to the parent and triggering Tipsy.. See the following example:',
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            _reactTipsy2.default,
+	            { content: 'Hello, world!' },
+	            _react2.default.createElement(
+	              'ul',
+	              { style: { display: 'inline-block' } },
+	              _react2.default.createElement(
+	                'li',
+	                null,
+	                'If you hover over me, you will see the tooltip!',
+	                _react2.default.createElement(
+	                  'ul',
+	                  { onFocus: stopPropagation, onMouseOver: stopPropagation, onTouchStart: stopPropagation },
+	                  _react2.default.createElement(
+	                    'li',
+	                    null,
+	                    'But try hovering over me and see if it shows up or not!'
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return App;
+	}(_react2.default.Component);
 
 	function stopPropagation(e) {
 	  e.stopPropagation();
 	}
 
-	ReactDOM.render(React.createElement(App, null), document.getElementById('app'));
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('app'));
 
 /***/ }),
 /* 1 */
@@ -22051,14 +22078,6 @@
 					}
 
 					_createClass(Tipsy, [{
-						key: 'getDefaultProps',
-						value: function getDefaultProps() {
-							return {
-								placement: 'top',
-								trigger: 'hover focus touch'
-							};
-						}
-					}, {
 						key: 'componentWillMount',
 						value: function componentWillMount() {
 							// ref. to the tipsy React element.
@@ -22236,6 +22255,11 @@
 
 				exports.default = Tipsy;
 				;
+
+				Tipsy.defaultProps = {
+					placement: 'top',
+					trigger: 'hover focus touch'
+				};
 
 				Tipsy.propTypes = {
 

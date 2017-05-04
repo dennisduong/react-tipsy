@@ -322,6 +322,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	};
 
+	Tipsy.version = "0.5.0";
+
 	// IE8+ equiv. of $.fn.offset
 	function offset(el) {
 	  var rect = el.getBoundingClientRect();

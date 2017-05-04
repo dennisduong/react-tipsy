@@ -13,10 +13,6 @@ import PropTypes from 'prop-types';
 
 export default class Tipsy extends Component {
 
-  static statics: {
-    version: '0.4.2'
-  }
-
   componentWillMount() {
     // ref. to the tipsy React element.
     this.tipsy = null;
@@ -180,36 +176,38 @@ export default class Tipsy extends Component {
 Tipsy.defaultProps = {
   placement: 'top',
   trigger: 'hover focus touch'
-}
+};
 
 Tipsy.propTypes = {
 
-    /**
-     * Use this property to render your component inside the `Tipsy`.
-     */
-    children: PropTypes.element.isRequired,
+  /**
+   * Use this property to render your component inside the `Tipsy`.
+   */
+  children: PropTypes.element.isRequired,
 
-    /**
-     * The contents to render. It's assumed to be a string but if you wish,
-     * you may pass in any mountable "node".
-     */
-    content: PropTypes.node.isRequired,
+  /**
+   * The contents to render. It's assumed to be a string but if you wish,
+   * you may pass in any mountable "node".
+   */
+  content: PropTypes.node.isRequired,
 
-    /**
-     * Specify where to place the tooltip.
-     *
-     * defaults to 'top'
-     */
-    placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  /**
+   * Specify where to place the tooltip.
+   *
+   * defaults to 'top'
+   */
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
 
-    /**
-     * How tooltip is triggered - click | hover | focus | touch | manual.
-     *
-     * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
-     */
-    trigger: PropTypes.string
+  /**
+   * How tooltip is triggered - click | hover | focus | touch | manual.
+   *
+   * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
+   */
+  trigger: PropTypes.string
 
-  }
+};
+
+Tipsy.version = "0.5.0";
 
 // IE8+ equiv. of $.fn.offset
 function offset(el) {
