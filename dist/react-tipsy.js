@@ -327,7 +327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Tipsy.defaultProps = {
 	  placement: 'top',
 	  trigger: 'hover focus touch',
-	  container: DefaultContainer
+	  container: Container
 	};
 
 	Tipsy.propTypes = {

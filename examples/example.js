@@ -338,6 +338,36 @@
 	    * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
 	    */
 
+				var Container = function (_PureComponent) {
+					_inherits(Container, _PureComponent);
+
+					function Container() {
+						_classCallCheck(this, Container);
+
+						return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
+					}
+
+					_createClass(Container, [{
+						key: 'render',
+						value: function render() {
+							return _react2.default.createElement('div', { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' }, _react2.default.createElement('div', { className: 'Tipsy-arrow' }), _react2.default.createElement('div', { className: 'Tipsy-inner' }, this.props.children));
+						}
+					}]);
+
+					return Container;
+				}(_react.PureComponent);
+
+				/**
+	    * Specify where to place the tooltip.
+	    *
+	    * defaults to 'top'
+	    */
+
+				Container.propTypes = {
+					placement: _propTypes2.default.oneOf(['top', 'right', 'bottom', 'left']),
+					content: _propTypes2.default.node.isRequired
+				};
+
 				var Tipsy = function (_Component) {
 					_inherits(Tipsy, _Component);
 
@@ -444,7 +474,8 @@
 							if (!forceUpdate && this.isVisible) return;
 
 							// render tooltip
-							var element = _react2.default.createElement('div', { className: 'Tipsy in ' + this.props.placement, role: 'tooltip' }, _react2.default.createElement('div', { className: 'Tipsy-arrow' }), _react2.default.createElement('div', { className: 'Tipsy-inner' }, this.props.content));
+							var Element = this.props.container;
+							var element = _react2.default.createElement(Element, { placement: this.props.placement }, this.props.content);
 
 							// mount the component
 							document.body.appendChild(this.portal);
@@ -528,7 +559,8 @@
 
 				Tipsy.defaultProps = {
 					placement: 'top',
-					trigger: 'hover focus touch'
+					trigger: 'hover focus touch',
+					container: DefaultContainer
 				};
 
 				Tipsy.propTypes = {
@@ -556,8 +588,13 @@
 	     *
 	     * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
 	     */
-					trigger: _propTypes2.default.string
+					trigger: _propTypes2.default.string,
 
+					/**
+	     * Customizable node for rendering the tipsy.
+	     *
+	     */
+					container: _react2.default.PropTypes.node
 				};
 
 				Tipsy.version = "0.5.0";
