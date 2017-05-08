@@ -193,7 +193,7 @@ export default class Tipsy extends Component {
 Tipsy.defaultProps = {
   placement: 'top',
   trigger: 'hover focus touch',
-  container: DefaultContainer
+  container: Container,
 };
 
 Tipsy.propTypes = {
