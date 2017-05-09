@@ -224,10 +224,10 @@ Tipsy.propTypes = {
   trigger: PropTypes.string,
 
   /**
-   * Customizable node for rendering the tipsy.
+   * Customizable container component for rendering the tipsy.
    *
    */
-  container: React.PropTypes.node,
+  container: React.PropTypes.func,
 };
 
 Tipsy.version = "0.5.0";
