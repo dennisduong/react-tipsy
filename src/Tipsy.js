@@ -29,7 +29,7 @@ class Container extends PureComponent {
  */
 Container.propTypes = {
   placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-  content: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
 export default class Tipsy extends Component {
