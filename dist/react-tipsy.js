@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Container.propTypes = {
 	  placement: _propTypes2.default.oneOf(['top', 'right', 'bottom', 'left']),
-	  content: _propTypes2.default.node.isRequired
+	  children: _propTypes2.default.node.isRequired
 	};
 
 	var Tipsy = function (_Component) {
@@ -358,10 +358,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  trigger: _propTypes2.default.string,
 
 	  /**
-	   * Customizable node for rendering the tipsy.
+	   * Customizable container component for rendering the tipsy.
 	   *
 	   */
-	  container: _react2.default.PropTypes.node
+	  container: _react2.default.PropTypes.func
 	};
 
 	Tipsy.version = "0.5.0";
