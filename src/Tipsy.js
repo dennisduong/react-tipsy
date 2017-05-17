@@ -1,6 +1,5 @@
-import React, {Component, PureComponent} from 'react';
+import React, {PropTypes, Component, PureComponent} from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 /**
  * Inspired by Bootstrap's jQuery tooltip plugin, which drew its inspiration
@@ -227,7 +226,7 @@ Tipsy.propTypes = {
    * Customizable container component for rendering the tipsy.
    *
    */
-  container: React.PropTypes.func,
+  container: PropTypes.func,
 };
 
 Tipsy.version = "0.5.0";
