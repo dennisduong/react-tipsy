@@ -322,7 +322,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	};
 
-	Tipsy.version = "0.5.0";
+	Tipsy.version = "0.5.1";
 
 	// IE8+ equiv. of $.fn.offset
 	function offset(el) {
