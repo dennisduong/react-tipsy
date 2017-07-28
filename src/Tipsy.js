@@ -212,9 +212,11 @@ Tipsy.version = "0.5.1";
 // IE8+ equiv. of $.fn.offset
 function offset(el) {
   const rect = el.getBoundingClientRect();
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
 
   return {
-    top: rect.top + document.body.scrollTop,
-    left: rect.left + document.body.scrollLeft
+    top: rect.top + scrollTop,
+    left: rect.left + scrollLeft
   };
 }
