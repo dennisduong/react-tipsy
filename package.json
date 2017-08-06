@@ -3,6 +3,12 @@
   "version": "0.6.0",
   "description": "A React component that allows you to easily create simple tooltips.",
   "main": "dist/react-tipsy.js",
+  "files": [
+    "dist",
+    "CHANGES",
+    "LICENSE",
+    "README.md"
+  ],
   "scripts": {
     "build": "npm run lessc; webpack --config examples/src/webpack.config.js; webpack; NODE_ENV=production webpack -p",
     "lessc": "lessc less/tipsy.less dist/react-tipsy.css",
