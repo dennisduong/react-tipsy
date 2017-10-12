@@ -22290,15 +22290,17 @@
 
 				};
 
-				Tipsy.version = "0.5.1";
+				Tipsy.version = "0.6.0";
 
 				// IE8+ equiv. of $.fn.offset
 				function offset(el) {
 					var rect = el.getBoundingClientRect();
+					var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+					var scrollLeft = window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft || 0;
 
 					return {
-						top: rect.top + document.body.scrollTop,
-						left: rect.left + document.body.scrollLeft
+						top: rect.top + scrollTop,
+						left: rect.left + scrollLeft
 					};
 				}
 				module.exports = exports['default'];

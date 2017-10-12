@@ -207,7 +207,7 @@ Tipsy.propTypes = {
 
 };
 
-Tipsy.version = "0.6.0";
+Tipsy.version = "0.6.1";
 
 // IE8+ equiv. of $.fn.offset
 function offset(el) {

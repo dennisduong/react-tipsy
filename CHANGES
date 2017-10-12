@@ -3,6 +3,13 @@ react-tipsy Changelog
 
 Here you can see the full list of changes between each react-tipsy release.
 
+Version 0.6.1
+-------------
+
+Released on October 12, 2017
+
+- Fixes #12
+
 Version 0.6.0
 -------------
 
