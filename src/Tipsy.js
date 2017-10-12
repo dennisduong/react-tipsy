@@ -101,7 +101,7 @@ export default class Tipsy extends Component {
 
     // render tooltip
     const element = (
-      <div className={`Tipsy in ${this.props.placement}`} role="tooltip">
+      <div className={`Tipsy in ${this.props.placement} ${this.props.className}`} role="tooltip">
         <div className="Tipsy-arrow"></div>
         <div className="Tipsy-inner">{this.props.content}</div>
       </div>
