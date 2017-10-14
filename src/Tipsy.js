@@ -41,6 +41,8 @@ export default class Tipsy extends Component {
   componentWillMount() {
     // ref. to the tipsy React element.
     this.tipsy = null;
+    // ref. to the delay timer
+    this.timer = null;
     // ref. to the "portal" DOM element
     this.portal = document.createElement('div');
     // flag used to update position if child component was updated
@@ -97,6 +99,9 @@ export default class Tipsy extends Component {
   // ----------
 
   destroy() {
+    // destroy any pending display timer
+    if (this.timer) clearTimeout(this.timer);
+
     // unmount element so we can trigger React component lifecycle methods.
     const unmounted = ReactDOM.unmountComponentAtNode(this.portal);
 
@@ -104,42 +109,54 @@ export default class Tipsy extends Component {
 
     this.isVisible = false;
     this.tipsy = null;
+    this.timer = null;
   }
 
   hide() {
+    // destroy any pending display timer
+    if (this.timer) clearTimeout(this.timer);
+
     // return early if tooltip is not visible
     if (!this.isVisible) return;
 
     // unmount the component
-    ReactDOM.unmountComponentAtNode(this.portal);
+    const unmounted = ReactDOM.unmountComponentAtNode(this.portal);
 
     // remove portal
-    document.body.removeChild(this.portal);
+    if (unmounted) document.body.removeChild(this.portal);
 
     // flip `show` flag
     this.isVisible = false;
+    this.timer = null;
   }
 
   show(forceUpdate) {
     // return early if tooltip is already visible or "forceUpdate" is false
     if (!forceUpdate && this.isVisible) return;
 
-    // render tooltip
-    const element = (
-      <div className={`Tipsy in ${this.props.placement} ${this.props.className}`} role="tooltip">
-        <div className="Tipsy-arrow"></div>
-        <div className="Tipsy-inner">{this.props.content}</div>
-      </div>
-    );
+    // destroy any pending display timer
+    if (this.timer) clearTimeout(this.timer);
 
-    // mount the component
-    document.body.appendChild(this.portal);
+    this.timer = setTimeout(() => {
 
-    // render element
-    this.tipsy = ReactDOM.unstable_renderSubtreeIntoContainer(this, element, this.portal);
+      // render tooltip
+      const element = (
+        <div className={`Tipsy in ${this.props.placement} ${this.props.className}`} role="tooltip">
+          <div className="Tipsy-arrow"></div>
+          <div className="Tipsy-inner">{this.props.content}</div>
+        </div>
+      );
 
-    // update position
-    this.updatePosition();
+      // mount the component
+      document.body.appendChild(this.portal);
+
+      // render element
+      this.tipsy = ReactDOM.unstable_renderSubtreeIntoContainer(this, element, this.portal);
+
+      // update position
+      this.updatePosition();
+
+    }, this.props.delay || 0);
 
     // flip `show` flag
     this.isVisible = true;
