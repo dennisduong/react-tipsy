@@ -3,6 +3,13 @@ react-tipsy Changelog
 
 Here you can see the full list of changes between each react-tipsy release.
 
+Version 0.6.2
+-------------
+
+Released on October 13, 2017
+
+- Removed "prop-types" as a dependency;
+
 Version 0.6.1
 -------------
 

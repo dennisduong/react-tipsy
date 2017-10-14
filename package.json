@@ -1,6 +1,6 @@
 {
   "name": "react-tipsy",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A React component that allows you to easily create simple tooltips.",
   "main": "dist/react-tipsy.js",
   "files": [
@@ -47,8 +47,5 @@
   "peerDependencies": {
     "react": "^15.5.0",
     "react-dom": "^15.5.0"
-  },
-  "dependencies": {
-    "prop-types": "^15.5.8"
   }
 }

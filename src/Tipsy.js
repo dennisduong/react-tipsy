@@ -1,7 +1,3 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-
 /**
  * Inspired by Bootstrap's jQuery tooltip plugin, which drew its inspiration
  * from the jQuery.tipsy plugin written by Jason Frame, Tipsy is a
@@ -10,7 +6,36 @@ import PropTypes from 'prop-types';
  *
  * Like bootstrap's tooltip plugin, Tipsy does not rely on images.
  */
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 
+ /*
+  * const propTypes = {
+  *   
+  *   // Use this property to render your component inside the `Tipsy`.
+  *   children: PropTypes.element.isRequired,
+  *  
+  *   // The className property is a standard space-separated list of classes 
+  *   // to apply to the main tooltip element when it rendered. This can be used 
+  *   // to add custom styling to a specific tooltip.
+  *   className: PropTypes.string,
+  * 
+  *   // The contents to render. It's assumed to be a string but if you wish,
+  *   // you may pass in any mountable "node".
+  *   content: PropTypes.node.isRequired,
+  * 
+  *   // Specify where to place the tooltip.
+  *   // 
+  *   // defaults to 'top'
+  *   placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  * 
+  *   // How tooltip is triggered - click | hover | focus | touch | manual.
+  *   // 
+  *   // You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
+  *   trigger: PropTypes.string
+  * 
+  * };
+  */
 export default class Tipsy extends Component {
 
   componentWillMount() {
@@ -178,36 +203,7 @@ Tipsy.defaultProps = {
   trigger: 'hover focus touch'
 };
 
-Tipsy.propTypes = {
-
-  /**
-   * Use this property to render your component inside the `Tipsy`.
-   */
-  children: PropTypes.element.isRequired,
-
-  /**
-   * The contents to render. It's assumed to be a string but if you wish,
-   * you may pass in any mountable "node".
-   */
-  content: PropTypes.node.isRequired,
-
-  /**
-   * Specify where to place the tooltip.
-   *
-   * defaults to 'top'
-   */
-  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-
-  /**
-   * How tooltip is triggered - click | hover | focus | touch | manual.
-   *
-   * You may pass multiple triggers; separate them with a space. Pass an string with value "manual" to manually trigger the tooltip.
-   */
-  trigger: PropTypes.string
-
-};
-
-Tipsy.version = "0.6.1";
+Tipsy.version = "0.6.2";
 
 // IE8+ equiv. of $.fn.offset
 function offset(el) {
